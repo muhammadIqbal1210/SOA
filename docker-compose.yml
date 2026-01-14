@@ -1,0 +1,81 @@
+services:
+  # Service Eureka Server
+  eurekaperpustakaan:
+    build: ./eurekaperpustakaan # Arahkan ke folder Eureka kamu
+    ports:
+      - "8761:8761"
+    networks:
+      - puskata-net
+
+# --- API GATEWAY ---
+  api-gateway:
+    build: ./api_gateway_perpustakaan
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+    depends_on:
+      - eurekaperpustakaan
+    networks:
+      - puskata-net
+
+  # --- MICROSERVICES ---
+  anggotaservice:
+    build: ./anggotaservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+    depends_on:
+      - eurekaperpustakaan
+    networks:
+      - puskata-net
+
+  bukuservice:
+    build: ./bukuservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+    depends_on:
+      - eurekaperpustakaan
+    networks:
+      - puskata-net
+
+  peminjamanservice:
+    build: ./peminjamanservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+      - SPRING_RABBITMQ_HOST=rabbitmq # Tambahkan ini
+      - SPRING_RABBITMQ_PORT=5672
+    depends_on:
+      - eurekaperpustakaan
+      - rabbitmq
+    networks:
+      - puskata-net
+
+  peminjamanqueryservice:
+    build: ./peminjamanqueryservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+    depends_on:
+      - eurekaperpustakaan
+    networks:
+      - puskata-net
+
+  pengembalianservice:
+    build: ./pengembalianservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaperpustakaan:8761/eureka/
+    depends_on:
+      - eurekaperpustakaan
+    networks:
+      - puskata-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # Port untuk pengiriman pesan (diakses Spring Boot)
+      - "15672:15672" # Dashboard Web (bisa dibuka di browser)
+    networks:
+      - puskata-net # Pastikan namanya sama dengan network service lainnya
+networks:
+  puskata-net:
+    driver: bridge
