@@ -53,6 +53,6 @@ public class AnggotaController {
 
     @GetMapping("/test")
     public String test() {
-        return "Service Anggota Aktif - Build by Jenkins v2"; // Ubah teks ini
+        return "Service Anggota Aktif - Contoh Demo Jenkins"; // Ubah teks ini
     }
 }
