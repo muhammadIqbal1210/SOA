@@ -1,0 +1,280 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-build plugin="workflow-job@1559.va_a_533730b_ea_d">
+  <actions>
+    <hudson.model.CauseAction>
+      <causeBag class="linked-hash-map">
+        <entry>
+          <hudson.model.Cause_-UserIdCause>
+            <userId>iqbal1210</userId>
+          </hudson.model.Cause_-UserIdCause>
+          <int>1</int>
+        </entry>
+      </causeBag>
+    </hudson.model.CauseAction>
+    <jenkins.metrics.impl.TimeInQueueAction plugin="metrics@4.2.37-494.v06f9a_939d33a_">
+      <queuingDurationMillis>16</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>0</buildableDurationMillis>
+      <waitingDurationMillis>14</waitingDurationMillis>
+    </jenkins.metrics.impl.TimeInQueueAction>
+    <org.jenkinsci.plugins.workflow.libs.LibrariesAction plugin="pipeline-groovy-lib@787.ve2fef0efdca_6">
+      <libraries/>
+    </org.jenkinsci.plugins.workflow.libs.LibrariesAction>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.ExecutionModelAction plugin="pipeline-model-definition@2.2277.v00573e73ddf1">
+      <stagesUUID>fe69356f-bc9d-4e65-9465-5685d9905896</stagesUUID>
+      <pipelineDefs>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTPipelineDef plugin="pipeline-model-api@2.2277.v00573e73ddf1">
+          <stages>
+            <stages>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <name>Ambil Kode (Git)</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>echo</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>message</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">Mengambil kode terbaru...</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <name>Build Java (Maven)</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">mvn clean package -DskipTests</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <name>Update Container Docker</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">docker-compose up -d --build anggotaservice</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+            </stages>
+            <uuid>fe69356f-bc9d-4e65-9465-5685d9905896</uuid>
+          </stages>
+          <postBuild>
+            <conditions>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBuildCondition>
+                <condition>success</condition>
+                <branch>
+                  <name>default</name>
+                  <steps>
+                    <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                      <name>echo</name>
+                      <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                        <arguments class="linked-hash-map">
+                          <entry>
+                            <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <key>message</key>
+                            </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                            <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                              <value class="string">Selamat! Service Anggota berhasil diperbarui secara otomatis.</value>
+                            </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                          </entry>
+                        </arguments>
+                      </args>
+                    </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                  </steps>
+                </branch>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBuildCondition>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBuildCondition>
+                <condition>failure</condition>
+                <branch>
+                  <name>default</name>
+                  <steps>
+                    <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                      <name>echo</name>
+                      <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                        <arguments class="linked-hash-map">
+                          <entry>
+                            <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <key>message</key>
+                            </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                            <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                              <value class="string">Build gagal. Silakan cek Console Output untuk melihat errornya.</value>
+                            </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                          </entry>
+                        </arguments>
+                      </args>
+                    </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                  </steps>
+                </branch>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBuildCondition>
+            </conditions>
+          </postBuild>
+          <agent>
+            <agentType>
+              <key>any</key>
+            </agentType>
+          </agent>
+          <tools>
+            <tools class="linked-hash-map">
+              <entry>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                  <key>maven</key>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                  <value class="string">maven-3</value>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+              </entry>
+            </tools>
+          </tools>
+        </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTPipelineDef>
+      </pipelineDefs>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.ExecutionModelAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.37-494.v06f9a_939d33a_">
+      <queuingDurationMillis>42</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>41</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>25818</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+  </actions>
+  <queueId>3</queueId>
+  <timestamp>1768719314138</timestamp>
+  <startTime>1768719314259</startTime>
+  <result>FAILURE</result>
+  <duration>27893</duration>
+  <charset>UTF-8</charset>
+  <keepLog>false</keepLog>
+  <execution class="org.jenkinsci.plugins.workflow.cps.CpsFlowExecution">
+    <result>FAILURE</result>
+    <script>pipeline {
+    agent any
+
+    tools {
+        // Harus sesuai dengan nama yang kamu buat di Manage Jenkins &gt; Tools
+        maven &apos;maven-3&apos;
+    }
+
+    stages {
+        stage(&apos;Ambil Kode (Git)&apos;) {
+            steps {
+                // Jika kodinganmu ada di lokal folder yang sama dengan Jenkins
+                // Jenkins otomatis sudah berada di workspace. 
+                // Tapi jika pakai Git, masukkan: git &apos;https://github.com/user/repo.git&apos;
+                echo &apos;Mengambil kode terbaru...&apos;
+            }
+        }
+
+        stage(&apos;Build Java (Maven)&apos;) {
+            steps {
+                // Menjalankan build tanpa running test agar cepat saat demo
+                sh &apos;mvn clean package -DskipTests&apos;
+            }
+        }
+
+        stage(&apos;Update Container Docker&apos;) {
+            steps {
+                // Perintah ini akan mem-build ulang image dan me-restart container anggota
+                // Pastikan nama servicenya sesuai dengan di docker-compose.yml
+                sh &apos;docker-compose up -d --build anggotaservice&apos;
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo &apos;Selamat! Service Anggota berhasil diperbarui secara otomatis.&apos;
+        }
+        failure {
+            echo &apos;Build gagal. Silakan cek Console Output untuk melihat errornya.&apos;
+        }
+    }
+}</script>
+    <loadedScripts class="linked-hash-map"/>
+    <durabilityHint>MAX_SURVIVABILITY</durabilityHint>
+    <timings class="map">
+      <entry>
+        <string>flowNode</string>
+        <long>5227185317</long>
+      </entry>
+      <entry>
+        <string>classLoad</string>
+        <long>159997495</long>
+      </entry>
+      <entry>
+        <string>runQueue</string>
+        <long>36344995098</long>
+      </entry>
+      <entry>
+        <string>run</string>
+        <long>19726408862</long>
+      </entry>
+      <entry>
+        <string>parse</string>
+        <long>60424526</long>
+      </entry>
+      <entry>
+        <string>saveProgram</string>
+        <long>11730868895</long>
+      </entry>
+    </timings>
+    <internalCalls class="sorted-set">
+      <string>hudson.model.Result.fromString</string>
+      <string>org.jenkinsci.plugins.pipeline.StageStatus.TAG_NAME</string>
+      <string>org.jenkinsci.plugins.workflow.job.WorkflowRun.result</string>
+    </internalCalls>
+    <sandbox>true</sandbox>
+    <iota>49</iota>
+    <head>1:49</head>
+    <done>true</done>
+    <resumeBlocked>false</resumeBlocked>
+    <storageDir>workflow-completed</storageDir>
+  </execution>
+  <completed>true</completed>
+  <checkouts class="hudson.util.PersistedList"/>
+</flow-build>
