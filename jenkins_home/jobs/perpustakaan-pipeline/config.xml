@@ -25,44 +25,34 @@
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4252.v465f588eb_52f">
     <script>pipeline {
     agent any
-
     tools {
-        // Harus sesuai dengan nama yang kamu buat di Manage Jenkins &gt; Tools
         maven &apos;maven-3&apos;
     }
-
     stages {
-        stage(&apos;Ambil Kode (Git)&apos;) {
+        stage(&apos;Checkout &amp; Build&apos;) {
             steps {
-                // Jika kodinganmu ada di lokal folder yang sama dengan Jenkins
-                // Jenkins otomatis sudah berada di workspace. 
-                // Tapi jika pakai Git, masukkan: git &apos;https://github.com/user/repo.git&apos;
-                echo &apos;Mengambil kode terbaru...&apos;
-            }
-        }
-
-        stage(&apos;Build Java (Maven)&apos;) {
-            steps {
-                // Menjalankan build tanpa running test agar cepat saat demo
-                sh &apos;mvn clean package -DskipTests&apos;
-            }
-        }
-
-        stage(&apos;Update Container Docker&apos;) {
-            steps {
-                // Perintah ini akan mem-build ulang image dan me-restart container anggota
-                // Pastikan nama servicenya sesuai dengan di docker-compose.yml
-                sh &apos;docker-compose up -d --build anggotaservice&apos;
+                script {
+                    // Masukkan link repo GitHub kamu lagi
+                    git branch: &apos;main&apos;, url: &apos;https://github.com/muhammadIqbal1210/SOA.git&apos;
+                    
+                    def services = [&apos;anggotaservice&apos;, &apos;bukuservice&apos;, &apos;peminjamanservice&apos;, &apos;pengembalianservice&apos;]
+                    
+                    for (service in services) {
+                        stage(&quot;Build ${service}&quot;) {
+                            dir(&quot;${service}&quot;) {
+                                echo &quot;Sedang memproses ${service}...&quot;
+                                // Tambahkan flag -o (offline) jika sudah pernah sukses sebelumnya agar lebih cepat
+                                sh &apos;mvn clean package -DskipTests&apos;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-    
     post {
         success {
-            echo &apos;Selamat! Service Anggota berhasil diperbarui secara otomatis.&apos;
-        }
-        failure {
-            echo &apos;Build gagal. Silakan cek Console Output untuk melihat errornya.&apos;
+            echo &apos;SEMUA SERVICE BERHASIL DI-BUILD!&apos;
         }
     }
 }</script>

@@ -50,4 +50,9 @@ public class AnggotaController {
         anggota.setId(id);
         return anggotaService.save(anggota);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Service Anggota Aktif - Build by Jenkins v2"; // Ubah teks ini
+    }
 }
